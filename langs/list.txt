@@ -1,5 +1,5 @@
-0100.for
-0200.if
+010-Java
+020-Kotlin
 
-for
-if
+Java
+Kotlin
