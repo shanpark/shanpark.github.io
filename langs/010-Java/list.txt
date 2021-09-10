@@ -1,2 +1,8 @@
-for
+Entry Point
+Console output
+Types
 if
+for
+while
+do while
+switch
