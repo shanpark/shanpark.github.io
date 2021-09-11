@@ -1,8 +1,8 @@
-Entry Point
-Console output
-Type system
-if
-for
-while
-do while
-switch
+010-Entry Point
+020-Console output
+030-Type system
+040-if
+050-for
+060-while
+070-do while
+080-switch
