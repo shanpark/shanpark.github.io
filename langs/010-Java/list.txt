@@ -1,6 +1,6 @@
 Entry Point
 Console output
-Types
+Type system
 if
 for
 while

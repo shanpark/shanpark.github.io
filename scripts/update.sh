@@ -2,7 +2,7 @@
 
 # 파일 버전 생성.
 cd ../langs
-date +%s%3N > version.txt
+date +%s > version.txt
 
 # language list.txt 작성. path 먼저쓰고 한줄 띠고 name쓰고...
 ls -1 -d */ | cut -f1 -d'/' > list.txt
