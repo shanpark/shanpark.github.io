@@ -1,4 +1,4 @@
-# JAVA
+# Java
 
 ## Type system
 

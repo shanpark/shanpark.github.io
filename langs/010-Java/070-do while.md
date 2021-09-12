@@ -1,4 +1,4 @@
-# JAVA
+# Java
 
 ## do while
 
