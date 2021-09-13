@@ -33,7 +33,6 @@ when { // no argument
     a < b -> println("a < b")
     else -> println("same")
 }
-
 ```
 
 > * argument 없이 사용하면 if ~ else 문을 대체하는 용도로 사용할 수 있다.
@@ -57,6 +56,7 @@ when (i) {
     else -> println("Some")
 }
 ```
+
 > * is 연산자와 함께 타입 체크 로직을 구현할 수 있다.
 
 ### 2. switch (Enum)
