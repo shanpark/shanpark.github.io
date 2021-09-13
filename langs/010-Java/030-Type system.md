@@ -1,6 +1,6 @@
-# Java
-
 ## Type system
+
+---
 
 ### 1. Primitive types
 

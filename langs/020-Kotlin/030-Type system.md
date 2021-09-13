@@ -1,6 +1,6 @@
-# Kotlin
-
 ## Type system
+
+---
 
 ### 1. Primitive types
 
@@ -25,13 +25,10 @@ var b: Boolean // true, false
 var str: String // string
 ```
 
-> ❗위 예시는 모두 Nullable하지 않은 타입이며 반드시 초기값이 지정되어야 하지만 설명을 위해 생략하였다. 
-
-> ❗타입 뒤에 ?를 붙이면 Nullable 타입이 된다.
-
-> ❗Java와 달리 모두 Reference 타입이기 때문에 Wrapper 클래스는 제공되지 않으며 필요도 없다.
-
-> ❗Java와 달리 unsigned integer 타입이 제공된다.
+* 위 예시는 모두 Nullable하지 않은 타입이며 반드시 초기값이 지정되어야 하지만 설명을 위해 생략하였다. 
+* 타입 뒤에 ?를 붙이면 Nullable 타입이 된다.
+* Java와 달리 모두 Reference 타입이기 때문에 Wrapper 클래스는 제공되지 않으며 필요도 없다.
+* Java와 달리 unsigned integer 타입이 제공된다.
 
 ### 2. Primitive type arrays
 
@@ -56,9 +53,8 @@ var ba: BooleanArray = booleanArrayOf(true, false)
 val stra: Array<String> = arrayOf("foo", "bar") // String은 일반 클래스의 array를 이용한다.
 ```
 
-> ❗Kotlin에서 Array는 Generic class인 `Array<T>` 형태로 제공되지만 Primitive type에 대해서는 위의 클래스들을 이용하도록 한다.
-
-> ❗Unsigned 타입들에 대한 Array 클래스들은 아직 실험단계로 제공되고 있으며 `@OptIn(ExperimentalUnsignedTypes::class)` annotation을 지정해야 경고가 사라진다.
+* Kotlin에서 Array는 Generic class인 `Array<T>` 형태로 제공되지만 Primitive type에 대해서는 위의 클래스들을 이용하도록 한다.
+* Unsigned 타입들에 대한 Array 클래스들은 아직 실험단계로 제공되고 있으며 `@OptIn(ExperimentalUnsignedTypes::class)` annotation을 지정해야 경고가 사라진다.
 
 ### 3. Collections
 
@@ -74,11 +70,9 @@ arr[0] = "baz"
 println("size: ${arr.size}") // size: 2
 ```
 
-> ❗모든 `Array` 타입은 생성될 때 그 크기가 지정되며 한 번 생성되면 바꿀 수 없다.
-
-> ❗Mutable 타입이 따로 없고 크기는 불변이지만 각 원소는 Read / Write가 가능하다.
-
-> ❗Kotlin의 모든 Collection 들은 그 크기를 `size` 속성을 통해서 알 수 있다.
+* 모든 `Array` 타입은 생성될 때 그 크기가 지정되며 한 번 생성되면 바꿀 수 없다.
+* Mutable 타입이 따로 없고 크기는 불변이지만 각 원소는 Read / Write가 가능하다.
+* Kotlin의 모든 Collection 들은 그 크기를 `size` 속성을 통해서 알 수 있다.
 
 #### List
 
@@ -95,9 +89,8 @@ imList.add(300)
 println("size: ${imList.size}") // size: 3
 ```
 
-> ❗Kotlin에서 `List`는 kotlin.collections 패키지의 interface일 뿐이며 listOf() 함수를 통해서 기본 구현체를 생성한다.
-
-> ❗`List`는 기본적으로 immutable 이며 변경이 가능한 `MutableList` 타입이 따로 존재한다.
+* Kotlin에서 `List`는 kotlin.collections 패키지의 interface일 뿐이며 listOf() 함수를 통해서 기본 구현체를 생성한다.
+* `List`는 기본적으로 immutable 이며 변경이 가능한 `MutableList` 타입이 따로 존재한다.
 
 #### Map
 
@@ -111,9 +104,9 @@ println("size: ${mmap.size}") // size: 3
 println("mmap[three]: ${mmap["three"]}") // mmap[three]: baz
 ```
 
-> ❗Kotlin에서 `Map`은 kotlin.collections 패키지의 interface일 뿐이며 mapOf() 함수를 통해서 기본 구현체를 생성한다.
+* Kotlin에서 `Map`은 kotlin.collections 패키지의 interface일 뿐이며 mapOf() 함수를 통해서 기본 구현체를 생성한다.
 
-> ❗`Map`은 기본적으로 immutable 이며 변경이 가능한 `MutableMap` 타입이 따로 존재한다.
+* `Map`은 기본적으로 immutable 이며 변경이 가능한 `MutableMap` 타입이 따로 존재한다.
 
 #### Set
 
@@ -125,6 +118,5 @@ mset.add("baz")
 println("size: ${mset.size}") // size: 3
 ```
 
-> ❗Kotlin에서 `Set`은 kotlin.collections 패키지의 interface일 뿐이며 setOf() 함수를 통해서 기본 구현체를 생성한다.
-
-> ❗`Set`은 기본적으로 immutable 이며 변경이 가능한 `MutableSet` 타입이 따로 존재한다.
+* Kotlin에서 `Set`은 kotlin.collections 패키지의 interface일 뿐이며 setOf() 함수를 통해서 기본 구현체를 생성한다.
+* `Set`은 기본적으로 immutable 이며 변경이 가능한 `MutableSet` 타입이 따로 존재한다.

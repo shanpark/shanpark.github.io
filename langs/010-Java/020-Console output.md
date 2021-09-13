@@ -1,6 +1,6 @@
-# Java
-
 ## Console output
+
+---
 
 많은 print 함수들이 내장되어 있지만 다음 2가지가 가장 많이 사용된다.
 

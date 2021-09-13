@@ -1,6 +1,6 @@
-# Java
-
 ## while
+
+---
 
 ### 1. while
 

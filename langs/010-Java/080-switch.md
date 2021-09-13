@@ -1,8 +1,8 @@
-# Java
-
 ## switch
 
-### 1. switch (Integer)
+---
+
+### 1. switch (Integer, String)
 
 ```java
 int num = 2;
@@ -41,24 +41,6 @@ switch (num) {
         break;
     default:
         numStr = "big number.";
-        break;
-}
-```
-
-### 3. switch (String)
-
-```java
-String numStr = "one";
-int num;
-switch (numStr) {
-    case "one":
-        num = 1;
-        break;
-    case "two":
-        num = 2;
-        break;
-    default:
-        num = 1000000;
         break;
 }
 ```

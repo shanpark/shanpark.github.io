@@ -1,7 +1,3 @@
-# Java
-
----
-
 ## Main(Entry) Function
 
 ---
