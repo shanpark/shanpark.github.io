@@ -1,4 +1,7 @@
 010-Entry Point
 020-Console output
 030-Type system
+040-if
 050-for
+060-while
+080-when

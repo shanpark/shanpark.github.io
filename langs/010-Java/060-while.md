@@ -4,7 +4,7 @@
 
 ### 1. while
 
-```
+```java
 int inx = 0;
 while (inx < 10) {
     System.out.println(inx);
@@ -12,17 +12,19 @@ while (inx < 10) {
 }
 ```
 
-### 2. Infinite loop
+### 2. do while
 
-```
-while (true) {
-    ...
-}
+```java
+int inx = 0;
+do {
+    System.out.println(inx);
+    inx++;
+} while (inx < 10);
 ```
 
 ### 3. Using Iterator
 
-```
+```java
 List<String> list = Arrays.asList("foo", "bar");
 
 Iterator<String> it = list.iterator();
