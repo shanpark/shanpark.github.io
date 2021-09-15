@@ -26,9 +26,9 @@ foo(baz = 1)
 ```
 
 > * parameter에 default value를 지정할 수 있다.
-> * 마지막 parameter의 뒤에 _trailing comma_를 지원한다.
-> * 호출할 때 앞쪽의 parameter에 default value가 있어서 그 parameter를 생략하려면 그 뒤의 parameter는 _named argument_ 방식으로 호출해야 한다.
-> * 모든 parameter는 _named argument_로 값을 전달할 수 있다.
+> * 마지막 parameter의 뒤에 *trailing comma*를 지원한다.
+> * 호출할 때 앞쪽의 parameter에 default value가 있어서 그 parameter를 생략하려면 그 뒤의 parameter는 *named argument* 방식으로 호출해야 한다.
+> * 모든 parameter는 *named argument*로 값을 전달할 수 있다.
 
 ```kotlin
 fun foo(
