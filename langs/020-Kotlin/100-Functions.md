@@ -22,7 +22,7 @@ fun foo(
     baz: Int,
 ) { /*...*/ }
 
-foo(baz = 1)
+foo(baz = 1) // named argument
 ```
 
 > * parameter에 default value를 지정할 수 있다.
