@@ -10,4 +10,4 @@ fun main(args: Array<String>) {
 }
 ```
 
-* 사용하지 않는다면 args parameter는 생략 가능하다.
+> * 사용하지 않는다면 `args` parameter는 생략 가능하다.

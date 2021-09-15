@@ -12,4 +12,4 @@ public class Main {
 }
 ```
 
-> ❗ Java는 global function 개념이 없고 class 내에 선언된 static 함수로 main()함수를 선언한다.
+> * Java는 global function 개념이 없고 class 내에 선언된 `static` 함수로 main()함수를 선언한다.

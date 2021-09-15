@@ -19,5 +19,5 @@ System.out.println("The answer is " + num + "."); // "The answer is 3.\n"
 System.out.format("The answer is %d.%n", num); // "The answer is 3.\n"
 ```
 
-> ❗ 시스템마다 new line 문자를 달리하기 때문에 format()을 사용할 때 new line 문자는 '\n' 보다 %n을 쓴다.
+> * 시스템마다 new line 문자를 달리하기 때문에 `format()`을 사용할 때 new line 문자는 `'\n'` 보다 `%n`을 쓴다.
 

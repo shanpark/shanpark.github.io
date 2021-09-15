@@ -18,7 +18,7 @@ double d; // 8 byte floating point
 boolean b; // true, false
 ```
 
-> ❗ Java는 unsigned integer 타입이 없다.
+> * Java는 unsigned integer 타입이 없다.
 
 ### 2. Wrapper class
 
@@ -36,7 +36,7 @@ Double d;
 Boolean b;
 ```
 
-> ❗ Java는 Primitive type이외의 모든 타입은 Reference type이다. 따라서 Wrapper class들도 대응되는 Primitive type들과 자연스러운 상호 변환이 이루어지는 특성이 있지만 `null`을 담을 수 있다는 장점이 있다.
+> * Java는 Primitive type이외의 모든 타입은 Reference type이다. 따라서 Wrapper class들도 대응되는 Primitive type들과 자연스러운 상호 변환이 이루어지는 특성이 있지만 `null`을 담을 수 있다는 장점이 있다.
 
 ### 3. Collections
 
@@ -51,7 +51,8 @@ arr2[1] = "bar";
 
 System.out.println(arr2.length); // 2
 ```
-> ❗Array의 길이는 `length` 속성을 이용한다. 이하 다른 Collection 타입들의 경우 `size()` 메소드를 이용한다.
+
+> * Array의 길이는 `length` 속성을 이용한다. 이하 다른 Collection 타입들의 경우 `size()` 메소드를 이용한다.
 
 #### List
 
@@ -67,7 +68,7 @@ list3.add("bar");
 System.out.println(list1.size()); // 2
 ```
 
-> ❗ Java에서 `List`는 java.util 패키지의 interface일 뿐이며 위 예에서는 `ArrayList`를 구현체로 사용하고 있다.
+> * Java에서 `List`는 java.util 패키지의 interface일 뿐이며 위 예에서는 `ArrayList`를 구현체로 사용하고 있다.
 
 #### Map
 
@@ -81,7 +82,7 @@ map2.put("two", 2);
 System.out.println(map2.size()); // 2
 ```
 
-> ❗ Java에서 `Map`은 java.util 패키지의 interface일 뿐이며 위 예에서는 `HashMap`을 구현체로 사용하고 있다.
+> * Java에서 `Map`은 java.util 패키지의 interface일 뿐이며 위 예에서는 `HashMap`을 구현체로 사용하고 있다.
 
 #### Set
 
@@ -97,4 +98,4 @@ set3.add("bar");
 System.out.println(set3.size()); // 2
 ```
 
-> ❗ Java에서 `Set`은 java.util 패키지의 interface일 뿐이며 위 예에서는 `HashSet`을 구현체로 사용하고 있다.
+> * Java에서 `Set`은 java.util 패키지의 interface일 뿐이며 위 예에서는 `HashSet`을 구현체로 사용하고 있다.
