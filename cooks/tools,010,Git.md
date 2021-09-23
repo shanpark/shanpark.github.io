@@ -54,13 +54,13 @@ $ git reset --hard [File]
 > * 지정된 파일을 최근 커밋 상태로 되돌린다.
 
 ```bash
-$ git reset [Commit ID]
+$ git reset [Commit checksum]
 ```
 
 > * active branch를 지정된 commit의 상태로 되돌리고, 모든 staging되어 있는 변경사항을 되돌리지만, 작업중인 내용은 되돌리지 않는다.
 
 ```bash
-$ git reset --hard [Commit ID]
+$ git reset --hard [Commit checksum]
 ```
 
 > * active branch의 모든 변경사항을 버리고 지정된 commit의 상태로 되돌린다. 
