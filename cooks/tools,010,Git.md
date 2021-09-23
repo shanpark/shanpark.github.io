@@ -74,16 +74,20 @@ $ git diff --staged
 > * `--staged`를 지정하면 staged 상태의 변경사항들을 출력한다. 
 
 ```bash
+$ git commit
 $ git commit -m "[Message]"
+$ git commit -a
 ```
 
 > * staging된 변경사항들을 반영하는 commit을 생성한다.
+> * `-m` 옵션을 지정하지 않으면 message를 입력하는 단계를 거친다. `-m`을 지정하면 message 입력 단계 거치지 않고 바로 message를 지정할 수 있다.
+> * `-a` 옵션을 지정하면 staging되지 않은 모든 변경사항들을 자동으로 staging 단계로 추가해 주고 commit을 수행한다. 
 
 ```bash
 $ git commit --amend
 ```
 
-> * 가장 마지막 commit을 현재 staging되어 있는 내용과 병합한다. staging없이 단순히 commit message를 변경하는 용도로도 사용할 수 있다.
+> * 가장 마지막 commit을 현재 staging되어 있는 내용과 병합한다. staging없이 사용하면 단순히 commit message를 변경하는 용도로도 사용할 수 있다.
 
 ### Branch
 
