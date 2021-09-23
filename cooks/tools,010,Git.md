@@ -160,10 +160,12 @@ $ git mv [Existing path] [New path]
 
 ```bash
 $ git remote add [Alias] [Remote URL]
+$ git remote -v
 ```
 
 > * remote repository를 alias(별칭)와 함께 추가(등록)한다. 다수의 remote repository를 등록하는 경우 alias를 사용하여 구분한다.
 > * 참고로 remote repository를 clone하면 *origin*이라는 alias가 자동으로 붙기 때문에 alias로 *origin* 을 많이 사용한다.
+> * `-v` 옵션으로 remote repository 등록 상황을 볼수 있다.
 
 ```bash
 $ git remote set-url [Alias] [New Remote URL]
@@ -171,7 +173,6 @@ $ git remote set-url origin https://USERID@github.com/USERID/REPOSITORY.git
 ```
 
 > * alias의 URL을 새로 설정한다. 한 장비에 여러 git 계정을 다루다보면 403에러와 함께 push가 안되는 등의 문제가 생길 수 있는데 이 때 같은 url이라도 새로 설정한 후 push를 수행하면 다시 인증을 수행한다.
-
 
 ```bash
 $ git remote rename [Old alias] [New alias]
