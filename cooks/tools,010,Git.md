@@ -147,29 +147,67 @@ $ git mv [Existing path] [New path]
 $ git remote add [Alias] [Remote URL]
 ```
 
-> * remote url을 alias(별칭)로 추가한다.
-> * 참고로 remote repository를 clone하면 *origin*이라는 별칭이 자동으로 붙기 때문에 alias로 *origin* 을 많이 사용한다.
+> * remote repository를 alias(별칭)와 함께 추가(등록)한다. 다수의 remote repository를 등록하는 경우 alias를 사용하여 구분한다.
+> * 참고로 remote repository를 clone하면 *origin*이라는 alias가 자동으로 붙기 때문에 alias로 *origin* 을 많이 사용한다.
+
+```bash
+$ git remote rename [Old alias] [New alias]
+$ git remote remove [Alias]
+```
+
+> * remote repository의 alias를 바꿀 수 있다.
+> * remote repository를 삭제할 수 있다. 삭제되는 remote repository의 branch 정보나 설정 내용 등도 모두 같이 삭제된다.
 
 ```bash
 $ git fetch [Alias]
 ```
 
-> * alias로 지정된 remote repository에서 모든 branch를 가져온다.
+> * 지정된 remote repository에서 모든 branch를 가져온다.
 
 ```bash
 $ git merge [Alias]/[Branch]
 ```
 
-> * active branch에 remote branch의 내용을 병합한다.
+> * active branch에 지정된 remote branch의 내용을 병합한다.
 
 ```bash
+$ git push
 $ git push [Alias] [Branch]
 ```
 
-> * local branch의 commit을 지정된 remote repository의 branch 반영한다.
+> * active branch의 commit을 remote repository에 반영한다.
+> * remote repository와 branch를 직접 지정할 수 있다.
 
 ```bash
 $ git pull
 ```
 
 > * remote branch의 모든 commit을 가져와서 병합한다. (fetch & merge)
+
+### Tag
+
+```bash
+$ git tag
+$ git tag -l "v1.0*"
+```
+
+> * 이미 만들어진 tag 목록을 출력한다.
+> * 검색 패턴을 이용해서 매칭되는 tag들만 출력할 수 있다.
+
+```bash
+$ git tag v1.1
+$ git tag -a v1.2 -m "my version 1.4"
+$ git tag -a v1.0 [Commit checksum]
+```
+
+> * 단순히 tag name만 지정하면 현재 commit에 tag를 남긴다. 하지만 message와 같은 다른 tag정보는 없다. (lightweight tag)
+> * `-a` 옵션을 지정해서 message를 같이 지정할 수 있다. (annotated tag)
+> * tag 뒤에 특정 commit의 checksum을 지정하여 이전 commit에 tag를 지정할 수 있다. checksum은 전체를 지정할 필요 없이 commit을 식별 가능한 정도로 앞의 4~7 글자만 지정해도 된다.
+
+```bash
+$ git push [Alias] [Tag name]
+$ git push [Alias] --tags
+```
+
+> * push를 한다고 해도 tag 정보가 같이 push 되지는 않는다. 별도로 tag를 push해줘야 remote에 반영되어 공유된다.
+> * `--tags` 옵션으로 remote에 없는 모든 tag를 한번에 전송할 수 있다.
