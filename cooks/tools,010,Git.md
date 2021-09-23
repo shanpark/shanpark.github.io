@@ -14,7 +14,7 @@ git config --global user.email "[user e-mail]"
 $ git init
 ```
 
-> * 현재 directory를 git repository로 초기화한다. 
+> * 현재 directory에 git repository를 생성합니다.
 
 ```bash
 $ git clone [Remote URL]
@@ -23,6 +23,7 @@ $ git clone [Remote URL]
 > * remote repository를 clone하여 local에 repository를 생성한다.
 
 ### Stage & Snapshot
+
 ```bash
 $ git status
 ```
@@ -39,7 +40,7 @@ $ git add -A
 > * 지정된 file을 staging area에 추가한다.
 > * 지정된 directory 전체를 staging area에 추가할 수도 있다.
 > * directory로 `.`을 지정해서 현재 directory내에 있는 모든 변경사항들을 한번에 staging area에 추가할 수도 있다.
-> * `-A`를 지정해서 저장소의 안의 모든 파일을 한번에 staging area에 추가할 수도 있다.
+> * `-A`를 지정해서 저장소의 안의 모든 변경 사항을 한번에 staging area에 추가할 수도 있다.
 
 ```bash
 $ git reset [File]
@@ -81,13 +82,19 @@ $ git commit -a
 
 > * staging된 변경사항들을 반영하는 commit을 생성한다.
 > * `-m` 옵션을 지정하지 않으면 message를 입력하는 단계를 거친다. `-m`을 지정하면 message 입력 단계 거치지 않고 바로 message를 지정할 수 있다.
-> * `-a` 옵션을 지정하면 staging되지 않은 모든 변경사항들을 자동으로 staging 단계로 추가해 주고 commit을 수행한다. 
+> * `-a` 옵션을 지정하면 staging되지 않은 모든 변경사항들을 자동으로 staging area로 추가해 주고 commit을 수행한다. 
 
 ```bash
 $ git commit --amend
 ```
 
 > * 가장 마지막 commit을 현재 staging되어 있는 내용과 병합한다. staging없이 사용하면 단순히 commit message를 변경하는 용도로도 사용할 수 있다.
+
+```bash
+$ git revert [Commit checksum]
+```
+
+> * reset 명령은 commit 내역 삭제하여 변경사항들을 버리고 이전으로 되돌리지만 revert는 변경사항을 반대로 복원하는 commit을 추가함으로써 변경사항을 이전으로 되돌린다. 즉 변경과 복원 내역이 모두 commit history에 남는다. 이미 공개된 repository에 대한 작업은 reset보다 revert가 안전하다.
 
 ### Branch
 
@@ -105,9 +112,11 @@ $ git branch [Branch]
 
 ```bash
 $ git checkout [Branch]
+$ git checkout -b [Branch]
 ```
 
-> * 지정된 branch로 active branch로 변경한다.
+> * 지정된 branch를 active branch로 변경한다.
+> * `-b` 옵션을 주면 지정된 branch를 만들고 checkout을 수행한다.
 
 ```bash
 $ git merge [Branch]
@@ -155,6 +164,14 @@ $ git remote add [Alias] [Remote URL]
 > * 참고로 remote repository를 clone하면 *origin*이라는 alias가 자동으로 붙기 때문에 alias로 *origin* 을 많이 사용한다.
 
 ```bash
+$ git remote set-url [Alias] [New Remote URL]
+$ git remote set-url origin https://USERID@github.com/USERID/REPOSITORY.git
+```
+
+> * alias의 URL을 새로 설정한다. 한 장비에 여러 git 계정을 다루다보면 403에러와 함께 push가 안되는 등의 문제가 생길 수 있는데 이 때 같은 url이라도 새로 설정한 후 push를 수행하면 다시 인증을 수행한다.
+
+
+```bash
 $ git remote rename [Old alias] [New alias]
 $ git remote remove [Alias]
 ```
@@ -177,11 +194,12 @@ $ git merge [Alias]/[Branch]
 ```bash
 $ git push
 $ git push [Alias] [Branch]
+$ git push [Alias] --all
 ```
 
 > * active branch의 commit을 remote repository에 반영한다.
 > * remote repository와 branch를 직접 지정할 수 있다.
-
+> * `--a` 옵션을 branch 대신 지정하면 모든 branch를 remote repository에 반영합니다.
 ```bash
 $ git pull
 ```
