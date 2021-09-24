@@ -7,7 +7,7 @@ git config --local user.name "[User name]"
 git config --local user.email "[user e-mail]"
 ```
 
-> * git이 commit할 때 사용할 사용자 이름과 이메일 주소를 설정한다. `~/.gitconfig` 파일에 저장된다.
+> * --global을 지정하면 git이 commit할 때 사용할 사용자 이름과 이메일 주소를 설정한다. `~/.gitconfig` 파일에 저장된다.
 > * --local을 지정하면 현재 repository에만 적용할 사용자 정보를 설정할 수 있다. repository directory의 `.git/config` 파일에 저장된다.
 
 ### Initialization
@@ -16,7 +16,7 @@ git config --local user.email "[user e-mail]"
 $ git init
 ```
 
-> * 현재 directory에 git repository를 생성합니다.
+> * 현재 directory에 git repository를 생성한다.
 
 ```bash
 $ git clone [Remote URL]
