@@ -1,2 +1,0 @@
-010-Java
-020-Kotlin

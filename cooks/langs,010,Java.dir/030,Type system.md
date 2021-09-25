@@ -20,7 +20,7 @@ boolean b; // true, false
 
 > * Java는 unsigned integer 타입이 없다.
 
-### 2. Wrapper class
+### 2. Wrapper classes
 
 ```java
 Character ch;
@@ -50,6 +50,11 @@ arr2[0] = "foo";
 arr2[1] = "bar";
 
 System.out.println(arr2.length); // 2
+
+// iterating
+for (String item: arr2) {
+    ...
+}
 ```
 
 > * Array의 길이는 `length` 속성을 이용한다. 이하 다른 Collection 타입들의 경우 `size()` 메소드를 이용한다.
@@ -66,6 +71,11 @@ list3.add("foo");
 list3.add("bar");
 
 System.out.println(list1.size()); // 2
+
+// iterating
+for (String item: list3) {
+    ...
+}
 ```
 
 > * Java에서 `List`는 java.util 패키지의 interface일 뿐이며 위 예에서는 `ArrayList`를 구현체로 사용하고 있다.
@@ -80,6 +90,16 @@ map2.put("one", 1);
 map2.put("two", 2);
 
 System.out.println(map2.size()); // 2
+
+// iterating
+for (Map.Entry<String, Integer> elem: map1.entrySet()) {
+    System.out.println(elem.getKey());
+    System.out.println(elem.getValue());
+}
+
+for (String key: map1.keySet()) {
+    System.out.println(map1.get(key));
+}
 ```
 
 > * Java에서 `Map`은 java.util 패키지의 interface일 뿐이며 위 예에서는 `HashMap`을 구현체로 사용하고 있다.
@@ -96,6 +116,11 @@ set3.add("foo");
 set3.add("bar");
 
 System.out.println(set3.size()); // 2
+
+// iterating
+for (String item: set1) {
+    ...
+}
 ```
 
 > * Java에서 `Set`은 java.util 패키지의 interface일 뿐이며 위 예에서는 `HashSet`을 구현체로 사용하고 있다.
