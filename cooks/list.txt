@@ -1,5 +1,5 @@
-langs,010,Java.dir
-langs,020,Kotlin.dir
-langs,030,Swift.dir
-libs,100,RxJava.dir
-tools,010,Git.md
+1. langs,010,Java.dir
+1. langs,020,Kotlin.dir
+1. langs,030,Swift.dir
+2. libs,100,RxJava.dir
+3. tools,010,Git.md
