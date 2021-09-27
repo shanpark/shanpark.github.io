@@ -1,7 +1,7 @@
-010,Entry Point.md
-020,Console output.md
-030,Type system.md
-040,if.md
-050,for.md
-060,while.md
-080,switch.md
+,010,Entry Point.md
+,020,Console output.md
+,030,Type system.md
+,040,if.md
+,050,for.md
+,060,while.md
+,080,switch.md
