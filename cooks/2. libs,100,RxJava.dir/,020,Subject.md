@@ -2,7 +2,7 @@
 
 ---
 
-### 1. Subject
+### 1. Subject 개요
 
 `Subject`는 `Observable`이기도 하고 `Observer`이기도 한 객체를 구현하기 위한 class로서 하나의 source에서 발생하는 값들을 여러 observer에게 multicast하는 용도로 사용한다.
 

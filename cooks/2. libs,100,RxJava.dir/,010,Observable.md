@@ -2,7 +2,7 @@
 
 ---
 
-### 1. Observable
+### 1. Observable 개요
 
 Observer 패턴은 엄격하게 말하면 Pub/Sub 패턴과는 다르지만 `Observable`은 Publisher, `Observer`는 Subscriber와 그 역할이 같다. 그러므로 값을 생성(방출)하고, 값을 수신하는 동작에 대한 용어로는 publish, subscribe라는 용어를 사용하도록 하겠다.
 
