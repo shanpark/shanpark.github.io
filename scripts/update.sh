@@ -8,6 +8,10 @@ function genList {
 
         ls -1 -d *.dir *.md > list.txt 2> /dev/null
 
+        while read dir; do
+        genList $dir
+        done < "list.txt"
+
         echo "Leave [$1]"
         cd ..
     fi
@@ -21,7 +25,5 @@ date +%s > version.txt
 ls -1 -d *.dir *.md > list.txt 2> /dev/null
 
 while read dir; do
-
 genList $dir
-
 done < "list.txt"
