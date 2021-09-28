@@ -1,15 +1,15 @@
 #! /bin/bash
 
 function genList {
-    if [ -d $1 ] # directory만 수행한다.
+    if [ -d "$1" ] # directory만 수행한다.
     then
         echo "Enter [$1]"
-        cd $1
+        cd "$1"
 
         ls -1 -d *.dir *.md > list.txt 2> /dev/null
 
         while read dir; do
-        genList $dir
+        genList "$dir"
         done < "list.txt"
 
         echo "Leave [$1]"
@@ -25,5 +25,5 @@ date +%s > version.txt
 ls -1 -d *.dir *.md > list.txt 2> /dev/null
 
 while read dir; do
-genList $dir
+genList "$dir"
 done < "list.txt"
