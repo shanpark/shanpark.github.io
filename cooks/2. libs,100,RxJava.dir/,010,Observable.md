@@ -39,9 +39,9 @@ Observable
 > * `Observer` 객체를 생성하지 않고 `subscribe()` 메소드에 `onNext`, `onError`, `onComplete` 함수를 직접 전달하는 여러 버전의 `subscribe()`가 제공된다. 이러한 `subscribe()` 메소드는 `Disposable` 객체를 반환한다. 위 예제의 `subscribe()`는 `onSubscribe()`의 파라미터로 전달되므로 `Disposable` 객체를 반환하지 않는다.
 > * 전달된(반환된) `Disposable` 객체를 사용하여 언제든지 subscribe를 취소할 수 있다.
 
-### 2. Observable example
+### 2. Observable basics
 
-여기서 소개된 모든 예제들은 Scheduler를 없이 실행되는 것들이다. 즉 모두 현재 스레드에서 실행된다.  
+여기서 소개된 모든 예제들은 scheduler 없이 실행되는 것들이다. 즉 모두 현재 스레드에서 실행된다.  
 아래 예제에서 fromFuture() 조차도 subscribe에 전달되는 onNext 함수는 현재 스레드에서 실행된다.
 
 #### create()
@@ -119,7 +119,7 @@ Observable.fromPublisher(publisher)
 
 ### 3. Single
 
-단 한 개의 값만을 publish한다.
+단 한 개의 값만을 publish하는 변형된 observable이다.
 
 ```java
 Single.just("hello")
@@ -143,7 +143,7 @@ Observable.empty()
 
 ### 4. Maybe
 
-* `Single`과 비숫하지만 값을 0개 또는 1개 publish하는 객체이다. 
+* `Single`과 비숫하지만 값을 0개 또는 1개의 값만 publish하는 observable이다. 
 * `MaybeObserver` 객체가 observer가 된다. `MaybeObserver`는 `SingleObserver`에 `onComplete`가 더 있다.
 * 직접 생성해서 사용할 수 있지만 그런 경우는 드물고 `reduce()` 메소드 같이 0개 또는 1개의 결과를 생성하는 함수가 결과를 반환하기 위한 용도로 사용한다.
 
@@ -152,7 +152,7 @@ Observable.empty()
 ```
 ConnectableObservable<Integer> observable = Observable.just(100, 200, 300).publish();
 observable.subscribe(data -> System.out.println("Subscriber #1:" + data));
-observable.connect(); // publish 시작 !
+observable.connect(); // begin publishing
 ```
 
 * 일반적인 `Observable`의 경우 `subscribe()`가 호출되면 publish를 시작한다. 하지만 `ConnectableObservable`은 publish를 시작하지 않고 기다렸다가 `connect()`가 호출되면 시작한다. 
