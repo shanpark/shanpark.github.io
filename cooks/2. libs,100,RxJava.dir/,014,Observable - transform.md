@@ -210,7 +210,7 @@ Observable.interval(500, TimeUnit.MILLISECONDS)
 [RxComputationThreadPool-2]	: 2
 ```
 
-### 5. reduce()
+### 6. reduce()
 
 여기서는 reduce라는 명칭을 사용하였으나 *aggregate*, *accumulate*라는 용어를 많이 사용한다.
 
@@ -246,7 +246,44 @@ Observable.range(1, 10)
 > * scheduler는 사용하지 않는다.
 > * 첫 단계에서는 이전 단계의 reducer가 반환한 값이 없지만 `seed`가 그 역할을 한다.
 
-### 6. filter()
+### 7. groupBy()
+
+`groupBy()` 메소드는 현재 observable 객체가 publish하는 값들을 `groupBy()`에 전달된 `keySelector` 함수가 반환하는 값을 기준으로 grouping 한다. 이 때 새로운 group이 만들어지면 `GroupedObservable` 객체를 만들고 이 객체를 publish하는 observable 객체를 반환한다.
+
+즉, groupBy()는 `GroupedObservable` 객체를 publish하는 observable 객체를 반환하는 메소드이다. 
+
+예제에서 보듯이 각 `groupBy()`가 publish하는 것은 `GroupedObservable` 객체이므로 다시 `subscribe()`를 호출해서 값을 받아야 한다. 이 때 각 값의 group은 groupedObservable 객체의 `getKey()` 메소드를 통해서 알 수 있다.
+
+#### Prototype
+
+```java
+public final Observable<GroupedObservable<K, T>> groupBy(Function<T, K> keySelector)
+```
+
+#### Example
+
+```java
+Observable.range(1, 5)
+    .groupBy(value -> (value % 2) == 0? "Even" : "Odd")
+    .subscribe(groupedObservable ->
+        groupedObservable.subscribe(
+            val -> System.out.format("Group: %s, Value: %d\n", groupedObservable.getKey(), val)
+        )
+    );
+```
+
+```
+Group: Odd, Value: 1
+Group: Even, Value: 2
+Group: Odd, Value: 3
+Group: Even, Value: 4
+Group: Odd, Value: 5
+```
+
+> * 예제에서는 표시되지 않았지만 scheduler는 사용하지 않는다.
+> * 값이 publish되는 순서는 group에 상관없이 즉시 publish 된다.
+
+### 8. filter()
 
 현재 observable이 publish하는 값들 중 조건에 맞는 값들만 선택적으로 publish하는 observable 객체를 반환한다.
 
