@@ -241,7 +241,7 @@ Observable.range(1, 10)
 
 여기서 중요한 점은 `groupBy()`는 `GroupedObservable` 객체를 publish하는 observable 객체를 반환한다는 것이다.
 
-예제에서 보듯이 각 `groupBy()`가 publish하는 것은 `GroupedObservable` 객체이므로 다시 `subscribe()`를 호출해서 값을 받아야 한다. 이 때 각 값의 group은 `GroupedObservable` 객체의 `getKey()` 메소드를 통해서 알 수 있다.
+예제에서 보듯이 `groupBy()`가 publish하는 것은 `GroupedObservable` 객체이므로 다시 `subscribe()`를 호출해서 값을 받아야 한다. 이 때 각 값의 group은 `GroupedObservable` 객체의 `getKey()` 메소드를 통해서 알 수 있다.
 
 #### Prototype
 
