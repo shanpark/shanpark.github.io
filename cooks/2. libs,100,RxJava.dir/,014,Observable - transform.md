@@ -78,8 +78,6 @@ Observable.just(1, 2)
 
 ```java
 public final Observable<R> flatMap(Function<T, ObservableSource<R>> mapper)
-...
-public final Observable<R> flatMap(Function<T, ObservableSource<R>> mapper, boolean delayErrors, int maxConcurrency, int bufferSize)
 ```
 
 #### Example
@@ -107,8 +105,7 @@ Observable.just(2, 3)
 > * scheduler는 사용하지 않는다.
 > * 변환된 여러 observable 객체가 publish하는 값들은 지연 없이 즉시 publish된다. 따라서 `mapper`가 반환한 observable 객체가 
 비동기로 동작하는 경우 `mapper`에 적용된 순서와 상관없이 publish되는 값들의 순서는 얼마든지 바뀔(섞일) 수 있다.
-> * 참고로 flatMap() 메소드는 위에서 설명한 메소드 외에 여러 파라미터를 받는 overload된 메소드가 매우 많다. 변형된 기능을 원하는 경우 
-살펴보도록 한다.
+> * 참고로 flatMap() 메소드는 위에서 설명한 메소드 외에도 여러 overload 메소드가 있다.
 
 ### 4. concatMap()
 
@@ -148,6 +145,7 @@ Observable.just(1, 2)
 > * scheduler는 사용하지 않는다. 예제의 경우에는 생성된 observable 객체가 scheduler를 사용할 뿐이다.
 > * mapper가 생성한 observable 객체는 100ms 간격으로 1을 3번, 200ms 간격으로 2를 3번 publish하므로 동시에
 진행된다면 1, 2가 섞여야 맞지만 concatMap()은 생성된 observable 객체를 순서대로 실행(publish)시킨다.
+> * 참고로 concatMap() 메소드는 위에서 설명한 메소드 외에도 여러 overload 메소드가 있다.
 > * 위 소스에서 `concapMap`을 `flatMap`으로 바꾸면 아래와 같은 결과가 나온다.
 
 ```
@@ -198,17 +196,8 @@ Observable.interval(500, TimeUnit.MILLISECONDS)
 
 > * scheduler는 사용하지 않는다. 예제의 경우에는 생성된 observable 객체가 scheduler를 사용할 뿐이다.
 > * `concatMap()`이라면 1과 2가 세 번씩 출력되어야 하지만 두 번째 observable이 생성되는 시점에 첫 번째 observable은
-중단되어 세 번째 1은 출력되지 않고 2가 세 번 출력되는 걸 볼 수 있다.
-
-```
-[main]	: current
-[RxComputationThreadPool-1]	: 1
-[RxComputationThreadPool-2]	: 2
-[RxComputationThreadPool-1]	: 1
-[RxComputationThreadPool-1]	: 1
-[RxComputationThreadPool-2]	: 2
-[RxComputationThreadPool-2]	: 2
-```
+중단되어 세 번째 1은 출력되지 않고 바로 2가 세 번 출력되는 걸 볼 수 있다.
+> * 참고로 switchMap() 메소드는 위에서 설명한 메소드 외에도 여러 overload 메소드가 있다.
 
 ### 6. reduce()
 
@@ -248,11 +237,11 @@ Observable.range(1, 10)
 
 ### 7. groupBy()
 
-`groupBy()` 메소드는 현재 observable 객체가 publish하는 값들을 `groupBy()`에 전달된 `keySelector` 함수가 반환하는 값을 기준으로 grouping 한다. 이 때 새로운 group이 만들어지면 `GroupedObservable` 객체를 만들고 이 객체를 publish하는 observable 객체를 반환한다.
+`groupBy()` 메소드는 `GroupedObservable` 객체를 publish하는 observable 객체를 반환한다. 여기서 publish하는 `GroupedObservable` 객체는 현재 observable 객체가 publish하는 값들을 `groupBy()`에 전달된 `keySelector` 함수를 적용하여 반환되는 값을 기준으로 grouping 했을 때 새로운 group이 만들어지면 `GroupedObservable` 객체를 만들어서 publish하는 것이다. 현재 observable 객체가 publish하는 값들은 각 `GroupedObservable` 객체를 통해서 publish된다.
 
-즉, groupBy()는 `GroupedObservable` 객체를 publish하는 observable 객체를 반환하는 메소드이다. 
+여기서 중요한 점은 `groupBy()`는 `GroupedObservable` 객체를 publish하는 observable 객체를 반환한다는 것이다.
 
-예제에서 보듯이 각 `groupBy()`가 publish하는 것은 `GroupedObservable` 객체이므로 다시 `subscribe()`를 호출해서 값을 받아야 한다. 이 때 각 값의 group은 groupedObservable 객체의 `getKey()` 메소드를 통해서 알 수 있다.
+예제에서 보듯이 각 `groupBy()`가 publish하는 것은 `GroupedObservable` 객체이므로 다시 `subscribe()`를 호출해서 값을 받아야 한다. 이 때 각 값의 group은 `GroupedObservable` 객체의 `getKey()` 메소드를 통해서 알 수 있다.
 
 #### Prototype
 
