@@ -3,6 +3,9 @@
 변환 메소드는 대체로 처음 observable 객체를 생성하는 게 아니라 현재 observable 객체를 변환하여 
 새로운 observable 객체를 반환하는 메소드들이다. 따라서 일반적으로 정적 메소드가 아니다.
 
+여기서 소개하는 메소드는 현재 observable로부터 값을 받아서 새로운 observable을 생성한다는 의미에서
+모두 변환 메소드라고 할 수 있다. 세세하게 filtering, combining 등으로 분류하기도 한다.
+
 ### 1. repeat()
 
 단순하게 현재 observable 객체의 pusblish sequence를 반복하는 observable 객체를 반환한다.
@@ -107,7 +110,107 @@ Observable.just(2, 3)
 > * 참고로 flatMap() 메소드는 위에서 설명한 메소드 외에 여러 파라미터를 받는 overload된 메소드가 매우 많다. 변형된 기능을 원하는 경우 
 살펴보도록 한다.
 
-### 4. reduce()
+### 4. concatMap()
+
+`flatMap()`과 비숫하지만 `concatMap()`은 mapper가 적용된 순서대로 값들이 publish되는 걸 보장한다. 즉 먼저 생성된 
+observable 객체가 완료된 후에 다음 생성된 observable 객체가 publish를 시작한다.
+
+#### Prototype
+
+```java
+public final Observable<R> concatMap(Function<T, ObservableSource<R>> mapper)
+```
+
+#### Example
+
+```java
+log("current");
+
+Observable.just(1, 2)
+    .concatMap(num ->
+        Observable.interval(100L * num, TimeUnit.MILLISECONDS)
+            .take(3)
+            .map(dummy -> num)
+    )
+    .subscribe(Main::log);
+```
+
+```
+[main]	: current
+[RxComputationThreadPool-1]	: 1
+[RxComputationThreadPool-1]	: 1
+[RxComputationThreadPool-1]	: 1
+[RxComputationThreadPool-2]	: 2
+[RxComputationThreadPool-2]	: 2
+[RxComputationThreadPool-2]	: 2
+```
+
+> * scheduler는 사용하지 않는다. 예제의 경우에는 생성된 observable 객체가 scheduler를 사용할 뿐이다.
+> * mapper가 생성한 observable 객체는 100ms 간격으로 1을 3번, 200ms 간격으로 2를 3번 publish하므로 동시에
+진행된다면 1, 2가 섞여야 맞지만 concatMap()은 생성된 observable 객체를 순서대로 실행(publish)시킨다.
+> * 위 소스에서 `concapMap`을 `flatMap`으로 바꾸면 아래와 같은 결과가 나온다.
+
+```
+[main]	: current
+[RxComputationThreadPool-1]	: 1
+[RxComputationThreadPool-2]	: 2
+[RxComputationThreadPool-1]	: 1
+[RxComputationThreadPool-1]	: 1
+[RxComputationThreadPool-2]	: 2
+[RxComputationThreadPool-2]	: 2
+```
+
+### 5. switchMap()
+
+`concatMap()`은 이전에 생성된 observable 객체가 작업을 완료할 때 까지 다음에 생성된 observable의 작업을 시작하지 않지만
+`switchMap()`은 mapper가 observable을 생성하면 즉시 이전에 생성된 observabable의 작업을 중단시키고 새로 생성된 
+observable의 작업을 실행시킨다.
+
+#### Prototype
+
+```java
+public final Observable<R> switchMap(Function<T, ObservableSource<R>> mapper)
+```
+
+#### Example
+
+```java
+log("current");
+
+Observable.interval(500, TimeUnit.MILLISECONDS)
+    .take(2)
+    .switchMap(num ->
+        Observable.interval(200L * (num+1), TimeUnit.MILLISECONDS)
+            .take(3)
+            .map(dummy -> num+1)
+    )
+    .subscribe(Main::log);
+```
+
+```
+[main]	: current
+[RxComputationThreadPool-2]	: 1
+[RxComputationThreadPool-2]	: 1
+[RxComputationThreadPool-3]	: 2
+[RxComputationThreadPool-3]	: 2
+[RxComputationThreadPool-3]	: 2
+```
+
+> * scheduler는 사용하지 않는다. 예제의 경우에는 생성된 observable 객체가 scheduler를 사용할 뿐이다.
+> * `concatMap()`이라면 1과 2가 세 번씩 출력되어야 하지만 두 번째 observable이 생성되는 시점에 첫 번째 observable은
+중단되어 세 번째 1은 출력되지 않고 2가 세 번 출력되는 걸 볼 수 있다.
+
+```
+[main]	: current
+[RxComputationThreadPool-1]	: 1
+[RxComputationThreadPool-2]	: 2
+[RxComputationThreadPool-1]	: 1
+[RxComputationThreadPool-1]	: 1
+[RxComputationThreadPool-2]	: 2
+[RxComputationThreadPool-2]	: 2
+```
+
+### 5. reduce()
 
 여기서는 reduce라는 명칭을 사용하였으나 *aggregate*, *accumulate*라는 용어를 많이 사용한다.
 
@@ -143,7 +246,7 @@ Observable.range(1, 10)
 > * scheduler는 사용하지 않는다.
 > * 첫 단계에서는 이전 단계의 reducer가 반환한 값이 없지만 `seed`가 그 역할을 한다.
 
-### 5. filter()
+### 6. filter()
 
 현재 observable이 publish하는 값들 중 조건에 맞는 값들만 선택적으로 publish하는 observable 객체를 반환한다.
 
@@ -174,7 +277,7 @@ Observable.range(1, 10)
 
 > * scheduler는 사용하지 않는다.
 
-### 6. first(), last(), take(), takeLast(), skip(), skipLast()
+### 7. first(), last(), take(), takeLast(), skip(), skipLast()
 
 filter() 처럼 몇몇 값들만 선택하는 메소드들이다. 이름만 봐도 어떤 식으로 동작하는 지 가늠할 수 있을 만큼 직관적이다.
 
