@@ -4,7 +4,7 @@
 
 ### 1. Observable 개요
 
-Observer 패턴은 엄격하게 말하면 Pub/Sub 패턴과는 다르지만 `Observable`은 Publisher, `Observer`는 Subscriber와 그 역할이 같다. 
+Observer 패턴은 엄격하게 말하면 Pub/Sub 패턴과는 다르지만 `Observable`은 Publisher, `Observer`는 Subscriber와 그 역할이 같다.
 그러므로 값을 발생(publish) 시키고, 값을 받는(subscribe) 동작에 대해서 값을 **발행**과 **수신**이라는 용어를 사용하도록 하겠다.
 
 observable 객체는 `subscribe()`가 호출되기 전에는 값을 발행하는 작업을 하지 않는다. 즉, `subscribe()`가 호출되기 전에는 그저 값을 어떻게 발행할 
@@ -52,9 +52,14 @@ Observable
 여기서 소개된 모든 예제들은 scheduler 없이 실행되는 것들이다. 즉 모두 현재 스레드에서 실행된다.  
 아래 예제에서 fromFuture() 조차도 observer의 onNext 함수는 현재 스레드에서 실행된다.
 
+Observable 클래스는 다양한 메소드를 가지고 있다. 아래 링크 참조.
+
+* [https://reactivex.io/documentation/operators.html](https://reactivex.io/documentation/operators.html)
+
 #### create()
 
 가장 기본이 되는 생성 메소드이다. 다른 메소드들이 내부적으로 어떤 식으로 구현될 지 가늠할 수 있으므로 명확하게 이해하도록 하자.
+파라미터로 emitter를 전달 받아서 `onNext()`로 값을 발행하고 완료가 되면 `onComplete()`를 호출해줘야 한다.
 
 ```java
 Observable.create(emitter -> {

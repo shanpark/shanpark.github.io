@@ -1,4 +1,8 @@
 ,010,Observable.md
-,012,Observable - create.md
-,014,Observable - transform.md
+,011,Observable - Creating.md
+,012,Observable - Transforming.md
+,014,Observable - Filtering.md
+,016,Observable - Combining.md
+,018,Observable - Conditional.md
+,019,Observable - Etc.md
 ,020,Subject.md
