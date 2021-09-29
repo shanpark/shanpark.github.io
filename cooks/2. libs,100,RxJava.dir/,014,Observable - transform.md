@@ -1,14 +1,11 @@
-## Observable 변환
+## Observable - transform
 
-변환 메소드는 대체로 처음 observable 객체를 생성하는 게 아니라 현재 observable 객체를 변환하여 
+변환 메소드는 대체로 처음 observable 객체를 생성하는 게 아니라 자신이 발행하는 값들을 변환하여 
 새로운 observable 객체를 반환하는 메소드들이다. 따라서 일반적으로 정적 메소드가 아니다.
-
-여기서 소개하는 메소드는 현재 observable로부터 값을 받아서 새로운 observable을 생성한다는 의미에서
-모두 변환 메소드라고 할 수 있다. 세세하게 filtering, combining 등으로 분류하기도 한다.
 
 ### 1. repeat()
 
-단순하게 현재 observable 객체의 pusblish sequence를 반복하는 observable 객체를 반환한다.
+자신이 정의하는 발행 작업을 계속 반복하는 observable 객체를 반환한다.
 
 #### Prototype
 
@@ -41,7 +38,7 @@ Observable.range(1, 2)
 
 ### 2. map()
 
-현재 observable 객체가 publish하는 값에 파라미터로 받은 `mapper`를 적용하여 반환된 값을 publish하는 observable 객체를 반환한다.
+자신이 발행하는 값에 파라미터로 받은 `mapper`를 적용하여 변환된 값을 발행하는 observable 객체를 반환한다.
 
 #### Prototype
 
@@ -68,11 +65,13 @@ Observable.just(1, 2)
 
 ### 3. flatMap()
 
-`map()` 메소드는 `mapper`가 `R`타입의 값을 반환하지만 `flatMap()`의 `mapper`는 `ObservableSource<R>`를 반환한다.
-즉 `flatMap()`의 `mapper`는 값을 한 개 받아서 여러 개의 값을 publish하는 observable 객체를 반환한다. 
+map()과 flatMap()은 전달하는 mapper가 다른데 그 차이점을 보면 이해가 쉽다.
 
-`flatMap()`은 **현재 observable 객체가 publish하는 값들을 위의 mapper를 통해서 observable객체로 변환**하고 
-**변환된 각 observable들이 publish하는 값들을 publish하는** observable 객체를 반환한다.
+`map()` 메소드는 `mapper`가 `R`타입의 값을 반환하지만 `flatMap()`의 `mapper`는 `ObservableSource<R>`를 반환한다.
+즉 `flatMap()`의 `mapper`는 값을 한 개 받아서 여러 개의 값을 발행하는 observable 객체를 반환한다. 
+
+`flatMap()`은 **자신이 발행하는 값들을 위의 mapper를 통해서 observable객체로 변환**하고 
+**변환된 각 observable들이 발행하는 값들을 발행하는** observable 객체를 반환한다.
 
 #### Prototype
 
@@ -103,14 +102,14 @@ Observable.just(2, 3)
 ```
 
 > * scheduler는 사용하지 않는다.
-> * 변환된 여러 observable 객체가 publish하는 값들은 지연 없이 즉시 publish된다. 따라서 `mapper`가 반환한 observable 객체가 
-비동기로 동작하는 경우 `mapper`에 적용된 순서와 상관없이 publish되는 값들의 순서는 얼마든지 바뀔(섞일) 수 있다.
+> * 변환된 여러 observable 객체가 발행하는 값들은 지연 없이 즉시 발행된다. 따라서 `mapper`가 반환한 observable 객체가 
+비동기로 동작하는 경우 `mapper`에 적용된 순서와 상관없이 발행되는 값들의 순서는 얼마든지 바뀔(섞일) 수 있다.
 > * 참고로 flatMap() 메소드는 위에서 설명한 메소드 외에도 여러 overload 메소드가 있다.
 
 ### 4. concatMap()
 
-`flatMap()`과 비숫하지만 `concatMap()`은 mapper가 적용된 순서대로 값들이 publish되는 걸 보장한다. 즉 먼저 생성된 
-observable 객체가 완료된 후에 다음 생성된 observable 객체가 publish를 시작한다.
+`flatMap()`과 비숫하지만 `concatMap()`은 mapper가 적용된 순서대로 값들이 발행되는 걸 보장한다. 즉 먼저 생성된 
+observable 객체가 완료된 후에 다음 생성된 observable 객체가 발행 작업을 시작한다.
 
 #### Prototype
 
@@ -143,8 +142,8 @@ Observable.just(1, 2)
 ```
 
 > * scheduler는 사용하지 않는다. 예제의 경우에는 생성된 observable 객체가 scheduler를 사용할 뿐이다.
-> * mapper가 생성한 observable 객체는 100ms 간격으로 1을 3번, 200ms 간격으로 2를 3번 publish하므로 동시에
-진행된다면 1, 2가 섞여야 맞지만 concatMap()은 생성된 observable 객체를 순서대로 실행(publish)시킨다.
+> * mapper가 생성한 observable 객체는 100ms 간격으로 1을 3번, 200ms 간격으로 2를 3번 발행하므로 동시에
+진행된다면 1, 2가 섞여야 맞지만 concatMap()은 생성된 observable 객체를 순서대로 실행시킨다.
 > * 참고로 concatMap() 메소드는 위에서 설명한 메소드 외에도 여러 overload 메소드가 있다.
 > * 위 소스에서 `concapMap`을 `flatMap`으로 바꾸면 아래와 같은 결과가 나온다.
 
@@ -203,12 +202,12 @@ Observable.interval(500, TimeUnit.MILLISECONDS)
 
 여기서는 reduce라는 명칭을 사용하였으나 *aggregate*, *accumulate*라는 용어를 많이 사용한다.
 
-현재 observable이 publish하는 모든 값들을 대상으로 다음 작업을 수행한다. 
-* 현재 publish된 값과 이전 단계의 `reducer`가 반환한 값으로 다시 `reducer`를 호출하는 작업을 반복하여 최종값이 생성되면 
-그 값을 publish하는 observable 객체를 반환한다. 
-* `seed`를 받지 않는 `reduce()` 메소드는 첫 번째 값이 `seed`가 되고 2번째 값부터 `reducer`가 적용된다. 따라서 현재 observable이
-값을 하나도 publish하지 않는다면 값이 없을 수 있기 때문에 `Maybe` 객체를 반환한다.
-* `seed`가 있는 경우에는 값이 하나도 publish되지 않더라도 기본적으로 `seed`값이 있으므로 `Single` 객체를 반환한다.
+자신이 발행하는 모든 값들을 대상으로 다음 작업을 수행한다. 
+* 현재 발행된 값과 이전 단계의 `reducer`가 반환한 값으로 다시 `reducer`를 적용하는 작업을 반복하여 최종값이 생성되면 
+그 값을 발행하는 observable 객체를 반환한다.
+* `seed`를 받지 않는 `reduce()` 메소드는 첫 번째 값이 `seed`가 되고 2번째 값부터 `reducer`가 적용된다. 
+따라서 자신이 값을 하나도 발행하지 않는다면 값이 없을 수 있기 때문에 `Maybe` 객체를 반환한다.
+* `seed`가 있는 경우에는 값이 하나도 발행되지 않더라도 기본적으로 `seed`값이 있으므로 `Single` 객체를 반환한다.
 
 #### Prototype
 
@@ -232,16 +231,59 @@ Observable.range(1, 10)
 [main]	: 55
 ```
 
+### 7. scan()
+
+`scan()` 메소드는 `reduce()`와 비숫한 동작을 하지만 최종 값만 발행하는 게 아니라 자신이 새로운 값을 발행할 때마다 
+accumulator를 적용하고 그 결과값을 발행하는 observable 객체를 반환한다.
+따라서 반환되는 객체는 `Single`이나 `Maybe`가 아니라 `Observable` 객체이다.
+
+#### Prototype
+
+```java
+public final Observable<T> scan(BiFunction<T, T, T> accumulator)
+public final Observable<R> scan(R initialValue, BiFunction<R, T, R> accumulator)
+```
+
+#### Example
+
+```java
+log("current");
+
+Observable.range(1, 10)
+    .scan(0, (prev, cur) -> prev + cur)
+    .subscribe(Main::log);
+```
+
+```
+[main]	: current
+[main]	: 0
+[main]	: 1
+[main]	: 3
+[main]	: 6
+[main]	: 10
+[main]	: 15
+[main]	: 21
+[main]	: 28
+[main]	: 36
+[main]	: 45
+[main]	: 55
+```
+
 > * scheduler는 사용하지 않는다.
-> * 첫 단계에서는 이전 단계의 reducer가 반환한 값이 없지만 `seed`가 그 역할을 한다.
+> * 최종값은 `reduce()`와 같다.
+> * initialValue가 주어지면 그 값도 발행이 되는 걸 볼 수 있다. initialValue가 없으면 1부터 발행된다.
 
-### 7. groupBy()
+### 8. groupBy()
 
-`groupBy()` 메소드는 `GroupedObservable` 객체를 publish하는 observable 객체를 반환한다. 여기서 publish하는 `GroupedObservable` 객체는 현재 observable 객체가 publish하는 값들을 `groupBy()`에 전달된 `keySelector` 함수를 적용하여 반환되는 값을 기준으로 grouping 했을 때 새로운 group이 만들어지면 `GroupedObservable` 객체를 만들어서 publish하는 것이다. 현재 observable 객체가 publish하는 값들은 각 `GroupedObservable` 객체를 통해서 publish된다.
+`groupBy()` 메소드는 `GroupedObservable` 객체를 발행하는 observable 객체를 반환한다. 
+여기서 발행되는 `GroupedObservable` 객체는 자신이 발행하는 값들을 `groupBy()`에 전달된 `keySelector` 함수를 적용하여 
+반환되는 값을 기준으로 grouping 했을 때 새로운 group이 만들어지면 `GroupedObservable` 객체를 만들어서 발행하는 것이다. 
+현재 observable 객체가 publish하는 값들은 각 `GroupedObservable` 객체를 통해서 publish된다.
 
-여기서 중요한 점은 `groupBy()`는 `GroupedObservable` 객체를 publish하는 observable 객체를 반환한다는 것이다.
+여기서 중요한 점은 `groupBy()`는 `GroupedObservable` 객체를 발행하는 observable 객체를 반환한다는 것이다.
 
-예제에서 보듯이 `groupBy()`가 publish하는 것은 `GroupedObservable` 객체이므로 다시 `subscribe()`를 호출해서 값을 받아야 한다. 이 때 각 값의 group은 `GroupedObservable` 객체의 `getKey()` 메소드를 통해서 알 수 있다.
+예제에서 보듯이 `groupBy()`가 발행하는 것은 `GroupedObservable` 객체이므로 다시 `subscribe()`를 호출해서 값을 받아야 한다. 
+이 때 각 값의 group은 `GroupedObservable` 객체의 `getKey()` 메소드를 통해서 알 수 있다.
 
 #### Prototype
 
@@ -270,57 +312,4 @@ Group: Odd, Value: 5
 ```
 
 > * 예제에서는 표시되지 않았지만 scheduler는 사용하지 않는다.
-> * 값이 publish되는 순서는 group에 상관없이 즉시 publish 된다.
-
-### 8. filter()
-
-현재 observable이 publish하는 값들 중 조건에 맞는 값들만 선택적으로 publish하는 observable 객체를 반환한다.
-
-#### Prototype
-
-```java
-public final Observable<T> filter(Predicate<T> predicate)
-```
-
-#### Example
-
-```java
-log("current");
-
-Observable.range(1, 10)
-    .filter(value -> (value % 2) == 0)
-    .subscribe(Main::log);
-```
-
-```
-[main]	: current
-[main]	: 2
-[main]	: 4
-[main]	: 6
-[main]	: 8
-[main]	: 10
-```
-
-> * scheduler는 사용하지 않는다.
-
-### 7. first(), last(), take(), takeLast(), skip(), skipLast()
-
-filter() 처럼 몇몇 값들만 선택하는 메소드들이다. 이름만 봐도 어떤 식으로 동작하는 지 가늠할 수 있을 만큼 직관적이다.
-
-#### Prototype
-
-```java
-public final Single<T> first(T defaultItem)
-public final Single<T> last(T defaultItem)
-public final Observable<T> take(long count)
-public final Observable<T> takeLast(int count)
-public final Observable<T> skip(long count)
-public final Observable<T> skipLast(int count)
-```
-
-> * `first(default)` - 첫 번째 값만 publish하는 `Single` 객체 반환. 값이 없이 끝나면 `default` 반환.
-> * `last(default)` - 마지막 값만 publish하는 `Single` 객체 반환. 값이 없이 끝나면 `default` 반환.
-> * `take(count)` - 처음 `count`개의 값만 publish하는 `Observable` 객체 반환.
-> * `takeLast(count)` - 마지막 `count`개의 값만 publish하는 `Observable` 객체 반환.
-> * `skip(count)` - 처음 `count`개의 값은 버리고 그 이후의 값만 publish하는 `Observable` 객체 반환.
-> * `skipLast(count)` - 마지막 `count`개의 값은 버리고 그 이전의 값만 publish하는 `Observable` 객체 반환.
+> * 발행되는 값은 각 group의 observable 객체를 통할 뿐 값이 발행되는 순서는 group에 상관없이 즉시 발행된다.

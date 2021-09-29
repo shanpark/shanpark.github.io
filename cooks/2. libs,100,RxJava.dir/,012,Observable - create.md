@@ -1,4 +1,4 @@
-## Observable 생성
+## Observable - create
 
 `Observable`을 생성하는 많은 함수들이 있다. observable을 처음 새로 생성하는 메소드는 대체로 정적 메소드이다. 
 
@@ -9,7 +9,7 @@
 
 ### 1. Observable.range()
 
-`start`부터 `count`개만큼 차례대로 publish한다.
+정수형 값을 `start`부터 `count`개만큼 차례대로 발행한다.
 
 #### Prototype
 
@@ -50,7 +50,7 @@ public class Main {
 
 ### 2. Observable.interval()
 
-일정 시간(initialDelay) 후부터 일정 간격(period)으로 0, 1, 2 ... 값을 차례로 무한하게 publish 한다.
+일정 시간(initialDelay) 후부터 일정 간격(period)으로 정수형 값을 0부터 차례대로 무한하게 발행한다.
 
 #### Prototype
 
@@ -78,12 +78,12 @@ Observable.interval(1000L, 1000L, TimeUnit.MILLISECONDS)
 ```
 
 > * `initialDelay`는 default로 `period`와 같다. 
-> * `scheduler`는 default로 `COMPUTATION`을 사용한다.
-> * 출력 결과에서 보듯이 Observer 코드는 다른 스레드에서 실행된다.
+> * scheduler는 default로 `COMPUTATION`을 사용한다.
+> * 출력 결과에서 보듯이 observer 코드는 다른 스레드에서 실행된다.
 
 ### 3. Observable.timer()
 
-일정 시간(delay) 후에 0값을 한 번 publish하고 끝낸다.
+일정 시간(delay) 후에 0을 한 번 발행하고 끝낸다.
 
 #### Prototype
 
@@ -106,13 +106,13 @@ Observable.timer(2000L, TimeUnit.MILLISECONDS)
 [RxComputationThreadPool-1]	: 0
 ```
 
-> * 0이 publish되지만 의미는 없다.
-> * `scheduler`는 default로 `COMPUTATION`을 사용한다.
-> * 출력 결과에서 보듯이 Observer 코드는 다른 스레드에서 실행된다.
+> * 0이 발행되지만 의미는 없다.
+> * scheduler는 default로 `COMPUTATION`을 사용한다.
+> * 출력 결과에서 보듯이 observer 코드는 다른 스레드에서 실행된다.
 
 ### 4. Observable.defer()
 
-새로운 observer가 subscribe를 할 때 까지 observable의 생성을 지연 시킨다. 풀어서 얘기하자면 다음과 같은 동작을 수행한다.
+observer가 subscribe를 할 때 까지 observable 객체의 생성을 지연 시킨다. 풀어서 얘기하자면 다음과 같은 동작을 수행한다.
 * 새로운 observer가 subscribe를 시작하면 파라미터로 받은 supplier를 호출해서 observable 객체를 생성하고 생성된 observable 객체를 새로 등록된 observer가 subscribe를 하도록 한다.
 
 #### Prototype
