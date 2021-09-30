@@ -12,8 +12,8 @@ RxJava는 기본적으로 몇가지 scheduler를 제공한다. `Schedulers` 클�
 * **Schedulers.newThread()**
 * **Schedulers.computation()**
 * **Schedulers.io()**
-* **Schedulers.trampoline()**
 * **Schedulers.single()**
+* **Schedulers.trampoline()**
 * **Schedulers.from(executor)**
 
 ### 2. Scheduler 사용
@@ -276,5 +276,41 @@ sleep 2000.
 
 #### Schedulers.trampoline()
 
-* 현재 스레드에 작업을 queuing 하는 scheduler이다. 
-* 따로 지정하지 않아도 
+* 현재 스레드에 작업 큐를 만들어 작업을 큐에 넣고 하나씩 실행하는 scheduler이다. 
+* 어차피 비동기 작업들은 scheduler를 따로 지정하지 않아도 현재 스레드에서 작업이 진행되고 
+interval() 같은 비동기 작업들은 trampoline() 으로 설정해도 효과가 없다. 
+* 실제로는 repeat(), retry() 같은 재귀적인 동작을 구현하기 위해서 사용되는 scheduler이며
+일반적으로는 거의 사용할 일이 없다. (RxJava 개발자의 의견임) 인터넷 상의 예제들도 trampoline()을 지정하지 않아도 그대로 동작하는 것들 뿐이다.
+
+#### Schedulers.from(executor)
+
+* Java의 Executor 객체를 scheduler로 사용하도록 한다. 
+* 이미 사용중인 Executor 객체를 재사용하는 경우에는 의미가 있지만 기본 제공하는 scheduler만으로 충분하기 때문에 특별히 사용할 일은 없다.
+
+```java
+log("current");
+
+Executor executor = Executors.newFixedThreadPool(4);
+
+Observable<Long> src1 = Observable.interval(0L, 100L, TimeUnit.MILLISECONDS)
+    .map(val -> val * 2).take(3);
+Observable<Long> src2 = Observable.interval(50L, 100L, TimeUnit.MILLISECONDS)
+    .map(val -> (val * 2) + 1).take(3);
+
+src1.observeOn(Schedulers.from(executor))
+    .subscribe(Main::log);
+src2.observeOn(Schedulers.from(executor))
+    .subscribe(Main::log);
+```
+
+```
+[main]	| current
+[pool-1-thread-1]	| 0
+[pool-1-thread-2]	| 1
+[pool-1-thread-3]	| 2
+[pool-1-thread-4]	| 3
+[pool-1-thread-1]	| 4
+[pool-1-thread-2]	| 5
+```
+
+> * 스레드풀에 생성된 4개의 스레드 중에 어떤 스레드와 특별히 연관성 없이 고르게 사용된다.
