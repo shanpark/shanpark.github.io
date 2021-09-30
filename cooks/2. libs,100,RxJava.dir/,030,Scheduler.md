@@ -125,7 +125,7 @@ Observable.just(1, 2, 3)
 [RxComputationThreadPool-2]	| 3
 ```
 
-> * `subscribeOn()`이 **computation** scheduler를 지정했지만 call chain의 맨 앞에 `observeOn()`으로 io scheduler를 지정했으므로 `doOnNext`의 작업이 **io** scheduler에서 실행되었다. 결국 `subscribeOn()`은 무시되었다.
+> * `subscribeOn()`이 **computation** scheduler를 지정했지만 call chain의 맨 앞에 `observeOn()`으로 **io** scheduler를 지정했으므로 `doOnNext`의 작업이 **io** scheduler에서 실행되었다. 결국 `subscribeOn()`은 무시되었다.
 > * 두 번째 `observeOn()`으로 **computation** scheduler를 호출함으로써 마지막 수신 작업은 **computaion** scheduler에서 실행되었다.
 
 ### 3. Schedulers
@@ -226,13 +226,13 @@ sleep 2000.
 ```
 
 > * main 스레드가 아닌 **io** scheduler의 스레드에서 실행되었다.
-> * 'RxCachedThreadScheduler-*n*'가 io schduler가 사용하는 스레드의 이름이다.
+> * 'RxCachedThreadScheduler-*n*'가 **io** schduler가 사용하는 스레드의 이름이다.
 > * **io** scheduler는 필요한 만큼 스레드를 생성하지만 재사용 가능한 스레드가 있으면 재사용한다. 예제에서 첫 번째, 두 번째 작업은 동시 실행되기 때문에 각각의 스레드에서 실행되지만 세 번째 작업은 2번 스레드를 재사용하고 있음을 볼 수 있다.
 
 
 #### Schedulers.single()
 
-* RxJava는 single scheduler용으로 스레드를 하나만 생성해서 사용한다.
+* RxJava는 **single** scheduler용으로 스레드를 하나만 생성해서 사용한다.
 * 여러 작업이 생성되더라도 하나의 스레드에서만 실행이 되기 때문에 이벤트 루프같은 로직을 구현하거나 동기화 문제가 발생할 여지가 있어서 순차적 실행이 필요할 때 사용을 고려해볼 수 있다.
 * interval() 같이 기본 scheduler가 현재 스레드에서 실행되는 경우가 아닌 경우 subscribeOn()으로 발행 작업을 지정해도 효과가 없다. 
 하지만 observeOn()으로 지정하면 수신 작업은 **single** scheduler에서 실행되도록 지정할 수 있다.
@@ -251,7 +251,7 @@ async.subscribeOn(Schedulers.single()) // not work.
 Thread.sleep(2000);
 System.out.println("sleep 2000.");
 
-async.observeOn(Schedulers.single())
+async.observeOn(Schedulers.single()) // work.
     .subscribe(Main::log);
 ```
 
@@ -270,17 +270,17 @@ sleep 2000.
 ```
 
 > * 'RxSingleScheduler-1' 스레드는 하나만 존재한다.
-> * `sync` 객체의 작업은 `subscribeOn()`으로 지정해도 single scheduler에서 정상적으로 실행 되었다.
-> * `async` 객체의 작업은 `subscribeOn()`으로 지정한 single scheduler에서 실행되지 않고 default scheduler에서 실행되었다.
-> * `async` 객체라도 `observeOn()`으로 지정하여 수신 작업을 single scheduler에서 실행되도록 지정할 수 있다.
+> * `sync` 객체의 작업은 `subscribeOn()`으로 지정해도 **single** scheduler에서 정상적으로 실행 되었다.
+> * `async` 객체의 작업은 `subscribeOn()`으로 지정한 **single** scheduler에서 실행되지 않고 default scheduler에서 실행되었다.
+> * `async` 객체라도 `observeOn()`으로 지정하여 수신 작업을 **single** scheduler에서 실행되도록 지정할 수 있다.
 
 #### Schedulers.trampoline()
 
 * 현재 스레드에 작업 큐를 만들어 작업을 큐에 넣고 하나씩 실행하는 scheduler이다. 
 * 어차피 비동기 작업들은 scheduler를 따로 지정하지 않아도 현재 스레드에서 작업이 진행되고 
-interval() 같은 비동기 작업들은 trampoline() 으로 설정해도 효과가 없다. 
-* 실제로는 repeat(), retry() 같은 재귀적인 동작을 구현하기 위해서 사용되는 scheduler이며
-일반적으로는 거의 사용할 일이 없다. (RxJava 개발자의 의견임) 인터넷 상의 예제들도 trampoline()을 지정하지 않아도 그대로 동작하는 것들 뿐이다.
+`interval()` 같은 비동기 작업들은 trampoline() 으로 설정해도 효과가 없다. 
+* 실제로는 `repeat()`, `retry()` 같은 재귀적인 동작을 구현하기 위해서 사용되는 scheduler이며
+일반적으로는 거의 사용할 일이 없다. (RxJava 개발자가 직접 한 얘기임.) 인터넷 상의 예제들도 trampoline()을 지정하지 않아도 그대로 동작하는 것들 뿐이다.
 
 #### Schedulers.from(executor)
 
