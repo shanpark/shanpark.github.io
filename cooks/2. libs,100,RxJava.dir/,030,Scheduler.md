@@ -273,3 +273,8 @@ sleep 2000.
 > * `sync` 객체의 작업은 `subscribeOn()`으로 지정해도 single scheduler에서 정상적으로 실행 되었다.
 > * `async` 객체의 작업은 `subscribeOn()`으로 지정한 single scheduler에서 실행되지 않고 default scheduler에서 실행되었다.
 > * `async` 객체라도 `observeOn()`으로 지정하여 수신 작업을 single scheduler에서 실행되도록 지정할 수 있다.
+
+#### Schedulers.trampoline()
+
+* 현재 스레드에 작업을 queuing 하는 scheduler이다. 
+* 따로 지정하지 않아도 
