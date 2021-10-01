@@ -120,13 +120,13 @@ map()
 
 ### 4. refCount()
 
-`ConnectableObservable` 객체를 `Observable` 객체처럼 동작하도록 바꿔서 반환한다. 이름만 봐서는 전혀 알 수 없는 동작이다.
+`ConnectableObservable` 객체를 `Observable` 객체처럼 동작하도록 바꿔서 반환한다. 메소드 이름만 봐서는 전혀 상관없는 동작이다.
 
 반환된 Observable 객체는 다음과 같이 동작한다.
-* 첫 번째 `subscribe()`가 호출되면 발행을 시작한다. (일반적인 observable 객체처럼 보이도록)
+* 첫 번째 `subscribe()`가 호출되면 발행을 시작한다. (일반적인 observable 객체처럼)
 * 발행이 완료되기 전에 다른 observer가 수신을 시작하면 그 이후에 발행된 값을 같이 받을 수 있다. (`ConnectableObservable` 객체가 multicast를 수행하는 것과 같다.)
 * observer의 수를 count하다가 observer가 하나도 없어지면 발행을 중단한다. (`refCount()`는 여기서 유래된 이름이다.)
-* 발행이 완전히 끝난 후에 또 다른 observer가 `subscribe()`를 호출하면 다시 처음부터 발행을 시작한다.
+* 발행이 완전히 끝난 후에 또 다른 observer가 `subscribe()`를 호출하면 다시 처음부터 발행을 시작한다. (일반적인 observable 객체처럼)
 
 #### Prototype
 
@@ -146,14 +146,19 @@ Observable<Long> src = Observable.interval(100, TimeUnit.MILLISECONDS)
         return val;
     })
     .publish().refCount();
-src.subscribe(val -> log("Observer 1: " + val)); // start !!
+
+Disposable d1 = src.subscribe(val -> log("Observer 1: " + val)); // start !!
 Thread.sleep(150); // before connect
-src.subscribe(val -> log("Observer 2: " + val));
+Disposable d2 = src.subscribe(val -> log("Observer 2: " + val));
+Thread.sleep(100); // before connect
+
+d1.dispose();
+d2.dispose();
 
 Thread.sleep(500);
 System.out.println("wait end.");
 
-src.subscribe(val -> log("Observer 3: " + val)); // restart !!
+src.subscribe(val -> log("Observer 3: " + val));
 ```
 
 ```
@@ -163,9 +168,6 @@ map()
 map()
 [RxComputationThreadPool-1]	| Observer 1: 1
 [RxComputationThreadPool-1]	| Observer 2: 1
-map()
-[RxComputationThreadPool-1]	| Observer 1: 2
-[RxComputationThreadPool-1]	| Observer 2: 2
 wait end.
 map()
 [RxComputationThreadPool-2]	| Observer 3: 0
@@ -176,8 +178,9 @@ map()
 ```
 
 > * 'Observer 1'이 subscribe를 시작하면 즉시 발행을 시작한다. 
-> * 2 번째 값이 발행되기 전에 'Observer 2'가 subcribe를 시작했으므로 값 1과 2는 두 Observer가 같이 수신하는 걸 볼 수 있다. (multicast)
-> * 마지막 값까지 완전히 발행이 완료된 후에 새로운 observer가 subscribe를 시작하면 발행작업이 다시 시작된다. ('Observer 3')
+> * 두 번째 값(1)이 발행되기 전에 'Observer 2'가 subcribe를 시작했으므로 두 번째 값은 두 Observer가 같이 수신하는 걸 볼 수 있다. (multicast)
+> * 세 번째 값이 발행되기 전에 Observer 1, 2 모두 수신을 중단했으므로 발행도 중단되어 세 번째 값의 mapper는 호출되지 않는다.
+> * 발행이 완료된 후 새로운 observer가 subscribe를 시작하면 발행작업이 처음부터 다시 시작된다. ('Observer 3')
 
 ### 5. share()
 
