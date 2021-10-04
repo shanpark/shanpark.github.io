@@ -56,14 +56,14 @@ stream을 생성하는 방법은 매우 많다. 그 중에 유용하게 사용�
 * **Stream.empty()** - 빈 stream을 생성
 * **Stream.of()** - 파라미터로 받은 값들의 stream을 생성.
 * **Arrays.stream()** - 파라미터로 받은 array의 stream을 생성. 일부분만을 stream으로 생성하는 overload 함수 제공.
-* **Stream.<T>builder()** - 정확히 하자면 stream을 생성하는 builder를 생성한다. 반환된 builder의 build() 메소드를 호출하면 최종 생성된 stream이 반환된다.
+* **Stream.<T>builder()** - 정확히 얘기 하자면 stream을 생성하는 builder를 생성한다. 반환된 builder의 build() 메소드를 호출하면 최종 생성된 stream이 반환된다.
 * **Stream.generate()** - 파라미터로 전달된 Supplier<T> 객체를 통해서 무한 stream을 생성한다. 
 * **Stream.iterate()** - seed값과 반복 함수를 받아서 무한 stream을 생성한다. 첫 번째 원소는 seed 값이 된다.
 * ***Primitive*Stream.range()** - IntStream, LongStream 같은 정수형 Primitive stream 객체들의 range() 메소드를 이용하여 특정 구간의 stream을 생성할 수 있다. 비숫한 기능의 다른 메소드가 더 있으므로 문서 참조.
 * **ints(), longs(), doubles()** of Random - Random 객체의 ints(), longs(), doubles() 메소드는 각각 IntStream, LongStream, DoubleStream을 생성한다. 여러가지 overload 메소드가 있으므로 문서 참조.
 * **splitAsStream()** of Pattern - Pattern 객체의 splitAsStream() 메소드는 패턴으로 문자열을 분리하여 stream으로 변환한다.
 * **Files.lines()** - 파라미터로 주어진 path의 파일 내용을 line단위로 분리하여 stream을 생성한다.
-* **Stream.concat()** - 파라미터로 받은 2개의 stream이 이어붙인 stream을 반환한다.
+* **Stream.concat()** - 파라미터로 받은 2개의 stream을 이어붙인 stream을 반환한다.
 
 ```java
 Stream<String> stream0 = Stream.empty();
