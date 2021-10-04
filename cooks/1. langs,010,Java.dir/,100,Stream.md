@@ -110,10 +110,10 @@ filtering 메소드들은 특정 조건에 맞는 원소로만 이루어진 stre
 ```java
 // Stream<String> stream = Stream.of("ab", "bc", "cd", "ab");
 
-stream1.filter(val -> !val.equals("bc")) // ab, cd, ab
-stream2.distinct() // ab, bc, cd
-stream3.skip(2) // cd, ab
-stream4.limit(2) // ab, bc
+stream1.filter(val -> !val.equals("bc")) // ["ab", "cd", "ab"]
+stream2.distinct() // ["ab", "bc", "cd"]
+stream3.skip(2) // ["cd", "ab"]
+stream4.limit(2) // ["ab", "bc"]
 ```
 
 #### mapping
@@ -123,18 +123,65 @@ stream4.limit(2) // ab, bc
 * flatMap() - stream의 원소를 받아서 stream으로 변환하는 함수를 파라미터로 받아서 각 원소를 stream으로 변환 한 후 각 stream의 원소들로 이루어진 stream을 반환한다. 즉, 함수가 반환하는 stream을 이어붙인 stream이라고 생각하면 간단하다.
 * flatMapTo*Primitive*() - 각 원소를 *Primitive*Stream으로 변환하는 함수를 받는 다는 것이 다를 뿐 flatMap()과 같은 동작을 한다. 반환되는 stream도 *Primitive*Stream이다.
 
+```java
+Stream<Integer> stream = Stream.of(1, 2, 3);
+Stream<String> stream2 = stream.map(Object::toString); // ["1", "2", "3"]
+IntStream stream3 = stream2.mapToInt(Integer::parseInt); // [1, 2, 3]
+```
+
+```java
+Stream<String> stream = Stream.of("1,2", "3,4");
+Stream<String> stream2 = stream.flatMap(
+    val -> Arrays.stream(val.split(",")) // ["1", "2"], ["3", "4"]
+); // ["1", "2", "3", "4"]
+
+Stream<String> stream3 = Stream.of("1,2", "3,4");
+IntStream stream4 = stream3.flatMapToInt( 
+    val -> // IntStream을 반환하는 lambda
+        Arrays.stream(val.split(",")) // ["1", "2"], ["3", "4"]
+            .mapToInt(Integer::parseInt) // [1, 2], [3, 4]
+); // [1, 2, 3, 4]
+```
+
 #### etc
 
-* sorted() - 원소들을 순서대로 정렬한 stream을 반환한다. 우선적으로 전체 값이 생성되어야 정렬이 가능하므로 무한 stream을 대상으로 실행될 수는 없다.
+* sorted() - 원소들을 순서대로 정렬한 stream을 반환한다. 우선적으로 전체 값이 생성되어야 정렬이 가능하므로
+무한 stream을 대상으로 실행될 수는 없다.
 * peek() - 현재 stream을 그대로 반환한다. 하지만 각 원소에 대해서 파라미터로 받은 action(Consumer)을 수행한다.
+forEach()와 확연히 다른 점은 peek()는 terminal operaion이 아니라는 것이다. 따라서 다른 terminal operation이 수행될 때 까지 수행되지 않는다.(lazy)
+
+```java
+Stream<Integer> stream = Stream.of(2, 3, 1);
+stream.sorted() // [1, 2, 3]. sorted
+    .peek(val -> System.out.println(val)) // perform action
+    .count(); // 3. terminal operation
+```
 
 ### 3. Stream terminal operations
 
 * **forEach()** - 각 원소에 대해서 파라미터로 받은 action(Consumer)을 수행한다.
 * **min()**, **max()** - stream에서 최소, 최대 값(Optional)을 반환한다. 원소가 없는 경우 empty optional을 반환한다.
 * **count()** - stream의 원소의 갯수를 반환한다.
-* **anyMatch()**, **allMatch()**, **noneMatch()** - 조건에 맞는 값이 하나라도 있으면, 모든 원소가 조건에 맞으면, 조건에 맞는 원소가 하나도 없으면 true를 반환한다. `allMatch()`, `noneMatch()`는 원소가 하나도 없는 경우 true이다.
-* **findFirst()**, **findAny()** - 각각 stream에서 첫 번째 원소(Optional)를 반환, 순서에 상관없이 stream의 원소(Optional)를 반환한다. 원소가 없는 경우 empty optional을 반환한다.
+* **anyMatch()**, **allMatch()**, **noneMatch()** - 조건에 맞는 값이 하나라도 있으면, 모든 원소가 조건에 맞으면, 조건에 맞는 원소가 하나도 없으면 true를 반환한다. 원소가 하나도 없는 경우 `allMatch()`, `noneMatch()`는 true, `anyMatch()`는 false이다.
+* **findFirst()**, **findAny()** - `findFirst()`는 stream에서 첫 번째 원소(Optional)를 반환, `findAny()`는 순서에 상관없이 stream의 원소 하나(Optional)를 반환한다. findAny()는 병렬 처리 중일 때 의미가 있다. 원소가 없는 경우 empty optional을 반환한다.
 * **reduce()** - 이전 단계의 accumulator가 반환한 값과 현재 값으로 다시 accumulator를 적용하는 작업을 반복하여 최종 값을 생성하여 반환한다. 원소가 없는 경우 empty optional을 반환한다.
 * **collect()** - 파라미터로 받은 collector를 사용하여 stream의 원소들을 담은 Collection 객체를 생성하여 반환한다.
 * **toArray()** - stream을 array로 변환하여 반환한다. Object[]와 T[]를 생성하는 두 가지 overload 메소드가 제공된다.
+
+```java
+Stream<String> stream = Stream.of("a", "b", "c");
+
+stream.forEach(System.out::println); // 1, 2, 3
+System.out.println(stream.min(String::compareTo)); // Optional[a]
+System.out.println(stream.count()); // 3
+System.out.println(stream.anyMatch(val -> val.equals("b"))); // true
+System.out.println(stream.findFirst()); // Optional[a]
+System.out.println(stream.reduce((a, b) -> a + b)); // Optional[abc]
+
+List<String> list = stream.collect(Collectors.toList());
+
+Object[] objArr = stream.toArray();
+String[] strArr = stream.toArray(String[]::new);
+```
+
+> * 위 코드는 예제일 뿐이며 stream은 한 번 사용되면 다시 사용될 수 없다. 따라서 위 문장들을 테스트하려면 실행문중 하나만 제외하고 모두 주석처리 하여 하나씩 테스트해봐야 한다.
