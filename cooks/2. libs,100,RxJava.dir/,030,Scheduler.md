@@ -4,7 +4,7 @@
 
 ### 1. Scheduler 개요
 
-scheduler는 observable 객체가 수행하는 발행 작업, observer 객체가 수행하는 수신 작업을 등을 수행하는 스레드풀 같은 개념이다.
+scheduler는 observable 객체가 수행하는 발행 작업, observer 객체가 수행하는 수신 작업을 등을 수행할 스레드풀 같은 개념이다.
 RxJava의 각종 이벤트 처리가 어떤 스레드에서 수행되는 것인지 살펴보는 것이 이해하는 데 많은 도움이 된다.
 
 RxJava는 기본적으로 몇가지 scheduler를 제공한다. `Schedulers` 클래스가 제공하는 정적 메소드들을 통해서 얻을 수 있다.
