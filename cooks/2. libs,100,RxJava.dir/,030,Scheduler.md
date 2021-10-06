@@ -125,7 +125,7 @@ Observable.just(1, 2, 3)
 [RxComputationThreadPool-2]	| 3
 ```
 
-> * `subscribeOn()`이 **computation** scheduler를 지정했지만 call chain의 맨 앞에 `observeOn()`으로 **io** scheduler를 지정했으므로 `doOnNext`의 작업이 **io** scheduler에서 실행되었다. 결국 `subscribeOn()`은 무시되었다.
+> * `subscribeOn()`이 **computation** scheduler를 지정했지만 call chain의 맨 앞에 `observeOn()`으로 **io** scheduler를 지정했으므로 `doOnNext`의 작업이 **io** scheduler에서 실행되었다. 참고로 `subscribeOn()`이 무시된 것처럼 보이지만 그럼에도 불구하고 doOnNext 이전의 발행작업은 **computation** scheduler에서 실행된다.
 > * 두 번째 `observeOn()`으로 **computation** scheduler를 호출함으로써 마지막 수신 작업은 **computaion** scheduler에서 실행되었다.
 
 ### 3. Schedulers
