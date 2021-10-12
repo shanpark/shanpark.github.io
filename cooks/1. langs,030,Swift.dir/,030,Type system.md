@@ -32,6 +32,7 @@ var str: String // string
 ```
 
 > * 다른 언어의 Primitive type의 역할을 하지만 이 type들도 모두 Named type이며 일반적인 `struct`로 구현된다.
+> * Character 타입 리터럴을 선언할 때 문자열 처럼 쌍따옴표(")를 사용한다. 즉 한 글자 짜리 문자열로 선언한다.
 > * 위 예시는 모두 `nil` 값을 가질 수 없는 타입이며 뒤에 ?를 붙이면 Optional 타입이 된다. (Nullable과 같다.)
 
 ### 2. Compound types
