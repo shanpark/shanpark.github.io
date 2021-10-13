@@ -18,9 +18,9 @@ default:
 // Prints "The last letter of the alphabet"
 ```
 
-> * C언어와 달리 break문은 필요없다.
-> * 하나의 `case`에 여러 개의 값을 지정할 수 있다. 그 중에 하나의 값과 같으면 실행된다.
-> * 각 `case`문은 반드시 한 개 이상의 실행문장을 포함해야 한다. 빈 case가 꼭 필요한 경우 break를 넣도록 한다.
+> * C언어와 달리 `break`문은 필요없다. 기본적으로 다음 case문으로 실행을 이어가지 않는다.
+> * 하나의 case에 여러 개의 값을 지정할 수 있다. 그 중에 하나의 값과 같으면 실행된다.
+> * 각 case문은 반드시 한 개 이상의 실행문장을 포함해야 한다. 빈 case가 꼭 필요한 경우 `break`를 넣도록 한다.
 > * 숫자, 문자열 등 비교가능한 타입들은 모두 가능하다.
 
 ```swift
@@ -47,7 +47,7 @@ print("There are \(naturalCount) \(countedThings).")
 // Prints "There are dozens of moons orbiting Saturn."
 ```
 
-> * `case`문에 Range 연산자를 사용하여 구간을 지정할 수 있다.
+> * case문에 Range 연산자를 사용하여 구간을 지정할 수 있다.
 
 ```swift
 let somePoint = (1, 1)
@@ -83,7 +83,8 @@ case let (x, y):
 // Prints "on the x-axis with an x value of 2"
 ```
 
-> * **Value binding**으로 `case` 내에서 유효한 임시 local 상수를 선언할 수 있다. 임시 상수는 matching되는 값으로 초기화된다.
+> * **Value binding**으로 case 내에서 유효한 임시 local 변수를 선언할 수 있다. 임시 변수는 matching되는 값으로 초기화된다.
+> * `let`, `var` 선언 모두 가능하다.
 
 ```swift
 let yetAnotherPoint = (1, -1)
@@ -99,7 +100,7 @@ case let (x, y):
 // Prints "(1, -1) is on the line x == -y"
 ```
 
-> * `case`에 `where` 구문으로 추가적인 조건을 지정할 수 있다.
+> * case에 `where` 구문으로 추가적인 조건을 지정할 수 있다.
 
 ```swift
 let integerToDescribe = 5
@@ -118,3 +119,28 @@ print(description)
 ```
 
 > * 다음 case문으로 실행을 이어가도록 강제로 지정하려면 `fallthrough`문을 사용한다.
+
+```swift
+enum CompassPoint {
+    case north
+    case south
+    case east
+    case west
+}
+
+directionToHead = .south
+switch directionToHead {
+case .north:
+    print("Lots of planets have a north")
+case .south:
+    print("Watch out for penguins")
+case .east:
+    print("Where the sun rises")
+case .west:
+    print("Where the skies are blue")
+}
+// Prints "Watch out for penguins"
+```
+
+> * enum을 사용한 기본적인 예제는 위와 같지만 Swift의 enum은 다양한 기능을 제공하여 switch와의 사용패턴 좀 더 다양하다.
+enum을 설명하는 쪽에서 다양한 예제를 제공하도록 하겠다.
