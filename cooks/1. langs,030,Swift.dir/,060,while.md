@@ -8,7 +8,7 @@
 var inx = 0
 while inx < 10 {
     print(inx)
-    inx = inx + 1
+    inx += 1
 }
 ```
 
@@ -20,7 +20,7 @@ while inx < 10 {
 var inx = 0
 repeat {
     print(inx)
-    inx = inx + 1
+    inx += 1
 } while (inx < 10)
 ```
 

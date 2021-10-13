@@ -31,11 +31,16 @@ var ch: Character // single character string, "C"
 var str: String // string
 ```
 
-> * 다른 언어의 Primitive type의 역할을 하지만 이 type들도 모두 Named type이며 일반적인 `struct`로 구현된다.
+> * 다른 언어의 Primitive type의 역할을 하지만 이 type들도 모두 Named type이며 일반적인 ***struct***로 구현된다. 즉, reference 타입이 아닌 value 타입이기 떄문에 값이 전달될 때는 항상 복사(copy)가 일어난다.
 > * Character 타입 리터럴을 선언할 때 문자열 처럼 쌍따옴표(")를 사용한다. 즉 한 글자 짜리 문자열로 선언한다.
 > * 위 예시는 모두 `nil` 값을 가질 수 없는 타입이며 뒤에 ?를 붙이면 Optional 타입이 된다. (Nullable과 같다.)
 
 ### 2. Compound types
+
+다음 두 가지의 타입이 있다.
+
+* Tuple
+* Function type
 
 ```swift
 // Tuple types: (type, type, ...)
@@ -61,7 +66,7 @@ var f2: (_ lhs: Int, _ rhs: Int) -> Int // OK
 > * Tuple type은 괄호 안에 0개 또는 2개 이상의 type들을 지정한 타입이다. 지정된 type이 0개인 empty tuple은 `Void` 타입으로 type alias 되어있다.
 > * tuple을 decompose해서 사용하거나 각 원소를 index로 access할 수 있다.
 > * tuple의 원소에 name이 있더라도 index로 access할 수 있다.
-> * Function type의 parameter는 label을 지정할 수 없다.
+> * Function type의 parameter는 ***label을 지정할 수 없다***.
 
 ### 3. Collections
 

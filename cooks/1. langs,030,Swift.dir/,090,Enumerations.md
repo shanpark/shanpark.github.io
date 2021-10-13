@@ -44,8 +44,7 @@ for beverage in Beverage.allCases {
 }
 ```
 
-> * CaseIterable을 구현하도록 지정하면 `allCases` 속성을 통해서 모든 case 값을 List형태로 access 할 수 있다.
-즉, [Beverage] 타입의 `allCases` 속성이 생긴다.
+> * enum을 CaseIterable을 구현하도록 하면 모든 case 값을 Array 타입으로 access 할 수 있는 `allCases` 속성이 생긴다. 위 예제에서 `Beverage.allCases`는 [Beverage] 타입이 된다.
 
 ### 2. Enum (Raw values)
 

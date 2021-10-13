@@ -103,4 +103,5 @@ tailrec fun findFixPoint(x: Double = 1.0): Double =
 ```
 
 > * 재귀 호출을 구현한 함수를 `tailrec` modifier 붙여주면 컴파일러가 stack overflow 걱정없는 loop 형태로 최적화를 해준다.
-> * 함수가 자신에 대한 호출을 결과값으로 사용하는 경우에 사용가능하며 `try` / `catch` / `finally` 블록 안에서는 사용할 수 없다.
+> * 함수가 자신에 대한 호출을 결과값으로 사용하는 경우에 효율적 변환이 가능하며 그렇지 않은 경우 별로 효과가 없을 수 있다. 
+> * `try` / `catch` / `finally` 블록 안에서는 사용할 수 없다.
