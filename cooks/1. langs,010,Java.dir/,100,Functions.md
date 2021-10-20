@@ -31,4 +31,5 @@ class SomeCloass {
 
 > * 일반적인 메소드 선언은 C언어의 함수 모양과 크게 다르지 않다.
 > * Generic 메소드의 선언도 가능하다.
-> * variable argument는 타입 뒤에 `...`을 붙여서 선언하며 parameter를 사용할 때는 array 타입으로 취급된다.
+> * varargs는 타입 뒤에 `...`을 붙여서 선언하며 parameter를 사용할 때는 array 타입으로 취급된다.
+> * 메소드는 1개 이상의 varargs를 가질 수 없고 Varargs는 메소드의 마지막 parameter이어야 한다.
