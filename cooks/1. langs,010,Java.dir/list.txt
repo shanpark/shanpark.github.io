@@ -5,4 +5,5 @@
 ,050,for.md
 ,060,while.md
 ,080,switch.md
-,100,Stream.md
+,100,Functions.md
+,110,Stream.md
