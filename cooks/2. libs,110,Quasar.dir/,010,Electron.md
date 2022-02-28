@@ -120,6 +120,7 @@ $ quasar dev -m electron --devtools
 - 아래 명령으로 빌드를 수행한다.
 - 빌드 후 `dist` 폴더에 배포 바이너리가 생성된다.
   - 플랫폼마다 생성 결과는 다르지만 dist/electron 폴더 아래에서 찾아보면 적당한 실행 파일을 찾을 수 있다.
+  - 참고로 UnPackaged 폴더는 최종 결과를 생성하기 위해 빌드된 파일이 저장된다. 즉, Web 소스 코드 형태로 빌드된 파일들을 볼 수 있다.
 
 ```bash
 $ quasar build -m electron
@@ -127,3 +128,10 @@ $ quasar build -m electron
 # debugging enabled for the UI code
 $ quasar build -m electron -d
 ```
+
+- quasar.conf.js 파일에서 설정한 bundler가 사용된다.
+  - '_packager_'는 서명작업은 하지 않으며 Mac에서 작업 시 Mac용 `.app`을 생성한다.
+  - '_builder_'는 빌드 작업을 수행하는 장비에 설정된 Apple 개발자 서명을 이용해서 서명을 수행한다.  
+    `.app` 뿐만 아니라 `.zip`, `.dmg` 파일까지 생성한다.
+    - `.zip`: `.app`을 단순히 압축한 파일이다.
+    - `.dmg`: `.app`을 설치하는 설치파일이다. ('Applications 폴더에 끌어 놓기' 설치 파일)
